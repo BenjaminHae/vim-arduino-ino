@@ -10,10 +10,6 @@ if !exists('g:vim_arduino_auto_open_serial')
   let g:vim_arduino_auto_open_serial = 0
 endif
 
-if !exists('g:vim_arduino_port')
-  let g:vim_arduino_port = "ttyUSB0"
-endif
-
 if !exists('g:vim_arduino_cmd')
   let g:vim_arduino_cmd = 'arduino'
 endif
@@ -41,8 +37,13 @@ function! s:InvokeArduinoCli(deploy)
   endif
   execute "w"
   if a:deploy
-    echomsg "Compiling and deploying..." l:f_name
-    let l:result = system(g:vim_arduino_cmd . " --upload " . l:f_name . " --port /dev/" . g:vim_arduino_port . l:board)
+    if exists('g:vim_arduino_port')
+      let l:vim_arduino_port = g:vim_arduino_port
+    else
+      let l:vim_arduino_port = systemlist("ls /dev/ttyUSB*")[0]
+    endif
+    echomsg "Compiling and deploying to " . l:vim_arduino_port . "..." l:f_name
+    let l:result = system(g:vim_arduino_cmd . " --upload " . l:f_name . " --port /dev/" . l:vim_arduino_port . l:board)
   else
     echomsg "Compiling..." l:f_name
     let l:result = system(g:vim_arduino_cmd . " --verify " . l:f_name . l:board)
