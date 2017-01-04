@@ -42,6 +42,18 @@ To change the command used to build and deploy :
 let g:vim_arduino_cmd = 'arduino'
 ```
 
+To change the port used to deploy :
+
+```
+let g:vim_arduino_port = 'ttyUSB0'
+```
+
+To change the board used to compile and deploy :
+
+```
+let g:vim_arduino_board = 'arduino:avr:leonardo'
+```
+
 
 [pathogen]: http://www.vim.org/scripts/script.php?script_id=2332
 [ano]: https://github.com/scottdarch/Arturo
