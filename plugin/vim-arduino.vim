@@ -1,4 +1,4 @@
-let s:vim_arduino_version = '0.1.0'
+let s:vim_arduino_version = '0.2.0'
 
 " Load Once: {{{1
 if exists("loaded_vim_arduino")
@@ -10,8 +10,12 @@ if !exists('g:vim_arduino_auto_open_serial')
   let g:vim_arduino_auto_open_serial = 0
 endif
 
-if !exists('g:vim_arduino_ino_cmd')
-  let g:vim_arduino_ino_cmd = 'ino'
+if !exists('g:vim_arduino_port')
+  let g:vim_arduino_port = "ttyUSB0"
+endif
+
+if !exists('g:vim_arduino_cmd')
+  let g:vim_arduino_cmd = 'arduino'
 endif
 
 let s:helper_dir = expand("<sfile>:h")
@@ -31,13 +35,17 @@ function! s:InvokeArduinoCli(deploy)
   call s:ArduinoKillMonitor()
   let l:flag = a:deploy ? "-d" : "-c"
   let l:f_name = expand('%:p')
+	  let l:board = ""
+  if exists('g:vim_arduino_board')
+	  let l:board = " --board " . g:vim_arduino_board
+  endif
   execute "w"
   if a:deploy
     echomsg "Compiling and deploying..." l:f_name
-    let l:result = system(g:vim_arduino_ino_cmd . " build && " . g:vim_arduino_ino_cmd . " upload")
+    let l:result = system(g:vim_arduino_cmd . " --upload " . l:f_name . " --port " . g:vim_arduino_port . l:board)
   else
     echomsg "Compiling..." l:f_name
-    let l:result = system(g:vim_arduino_ino_cmd . " build")
+    let l:result = system(g:vim_arduino_cmd . " --verify " . l:f_name . l:board)
   endif
 
   echo l:result
