@@ -45,7 +45,7 @@ let g:vim_arduino_cmd = 'arduino'
 To change the port used to deploy :
 
 ```
-let g:vim_arduino_port = 'ttyUSB0'
+let g:vim_arduino_port = '/dev/ttyUSB0'
 ```
 
 To change the board used to compile and deploy :

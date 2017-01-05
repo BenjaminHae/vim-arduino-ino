@@ -43,7 +43,7 @@ function! s:InvokeArduinoCli(deploy)
       let l:vim_arduino_port = systemlist("ls /dev/ttyUSB*")[0]
     endif
     echomsg "Compiling and deploying to " . l:vim_arduino_port . "..." l:f_name
-    let l:result = system(g:vim_arduino_cmd . " --upload " . l:f_name . " --port /dev/" . l:vim_arduino_port . l:board)
+    let l:result = system(g:vim_arduino_cmd . " --upload " . l:f_name . " --port " . l:vim_arduino_port . l:board)
   else
     echomsg "Compiling..." l:f_name
     let l:result = system(g:vim_arduino_cmd . " --verify " . l:f_name . l:board)
